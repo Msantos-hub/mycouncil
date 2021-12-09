@@ -1,6 +1,6 @@
 <?php
 
-    //Concede accede de control al origen
+   /*  Concede accede de control al origen */
     header('Access-Control-Allow-Origin: *');
 
     //Conecta con la base de datos

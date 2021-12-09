@@ -11,7 +11,7 @@
               datos por favor en la seccion sugerencias puedes indicarnos que
               comic añadir en un futuro a nuestra coleccion.
             </p>
-            <v-avatar size="450" rounded>
+            <v-avatar size="400" rounded>
               <v-img src="../assets/img/logos/wantyou.jpg"></v-img>
             </v-avatar>
           </v-col>

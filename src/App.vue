@@ -109,6 +109,7 @@ li {
 <script src="/js/vue-resource.js"></script>
 <script>
 export default {
+  /** comprueba que existe un token */
   name: "App",
   data: () => ({
     icons: ["mdi-facebook", "mdi-twitter", "mdi-discord", "mdi-instagram"],
@@ -119,15 +120,14 @@ export default {
   updated() {
     this.tokenexist();
   },
-  mounted() {
-    /* location.reload(); */
-  },
   methods: {
+    /** comprueba que existe un token */
     tokenexist() {
       var _this = this;
       _this.token = localStorage.getItem("id");
       _this.type = localStorage.getItem("userType");
     },
+    /** borra los tokens del localstorage para cerrar la sesion del usuario */
     logout() {
       localStorage.removeItem("id");
       localStorage.removeItem("userName");
