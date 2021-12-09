@@ -2,7 +2,7 @@
 
 ## 1º Step
 ```
-install node.js on your pc
+install node.js on your pc https://nodejs.org/es/download/
 ```
 
 ## Project setup
