@@ -82,7 +82,7 @@ export default {
           } else {  
             localStorage.setItem('id', response.data.usuario[0].idUsuario);
             localStorage.setItem('userName', response.data.usuario[0].nombre);                
-            this.$router.push("/user");
+            this.$router.push("/");
           }        
         })
         .catch((err) => {         

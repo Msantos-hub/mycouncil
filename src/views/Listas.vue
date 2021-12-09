@@ -26,8 +26,13 @@
             </v-text-field>
             <h4>Seleccion de comics</h4>
             <v-select
-            multiple
-            :items="items"
+              :items="comics"
+              label="Comics"
+              item-text="nombre"
+              item-key="comics"
+              item-value="idComic"
+              multiple
+              return-object
             >
               
             </v-select>
@@ -84,7 +89,6 @@ export default {
     lista: [],
     comics: [],
     comic: [],
-    items: ['Foo', 'Bar', 'Fizz', 'Buzz']
   }),
   created: function() {
     this.getLista();
@@ -112,7 +116,7 @@ export default {
         )
         .then(function(response) {
           _this.comics = response.data.comic;
-          console.log(response.data.comic);
+          console.log(_this.comics);
         });
     },
     crear() {
