@@ -39,18 +39,27 @@
 
         $idUsuario= $_POST['idUsuario'];
         $nombre= $_POST['nombre'];
-        $idComic= $_POST['idcomic'];
 
         $sql=$conexion->query("INSERT INTO lista(nombre) VALUES ('$nombre')");
 
         $idLista=mysqli_insert_id($conexion);
 
-       if($sql){   
-            $sql2=$conexion->query("INSERT INTO usuariolista(idUsuario,idLista) VALUES ('$idUsuario','$idLista')"); 
-            if($sql2){               
+        if($sql){   
+            $sql2=$conexion->query("INSERT INTO usuariolista(idUsuario,idLista) VALUES ('$idUsuario','$idLista')");
+            if($sql2)
+            {               
                 $resultado['message']= "Union Usuario lista correcta";
-                $sql3=$conexion->query("INSERT INTO listacomic(idLista,idcomic) VALUES ('$idLista','$idComic')");              
-             }    
+                $idComic=1;
+                $sql3=$conexion->query("INSERT INTO listacomic(idLista,idcomic) VALUES ('$idLista','$idComic')");
+
+                if($sql3){
+                    $resultado['message']= "Union listaComic correcta";
+                }else{
+                    $resultado['message']= "Union listaComic pocha";
+                }
+             }else{
+                $resultado['message']= "Union usuariolista pocha";
+             }
         }else{
             $resultado['error']=true;
             $resultado['message']="ERROR: No se a podido realizar la union";
@@ -58,3 +67,4 @@
     }
     //Muestra los resultados en formato JSON
     echo json_encode($resultado);
+?>

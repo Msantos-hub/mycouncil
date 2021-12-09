@@ -26,16 +26,25 @@
             </v-text-field>
             <h4>Seleccion de comics</h4>
             <v-select
-              :items="comics"
+              :items="Listacomics"
               label="Comics"
               item-text="nombre"
-              item-key="comics"
+              item-key="index"
               item-value="idComic"
+              v-model="ListaComics"
               multiple
               return-object
             >
-              
             </v-select>
+            <v-btn
+              bottom
+              color="light-blue darken-1"
+              class="mr-5 mt-5"
+              dark
+              @click="getIds(ListaComics)"
+            >
+              Crear Lista
+            </v-btn>
             <v-btn
               bottom
               color="light-blue darken-1"
@@ -83,12 +92,12 @@
 import axios from "axios";
 export default {
   data: () => ({
-    items: [],
+    ListaComics: [],
     selectComics: "",
     nombreLista: "",
-    lista: [],
-    comics: [],
-    comic: [],
+    items: [],
+    Listacomics: [],
+    comic: { idComic: "" },
   }),
   created: function() {
     this.getLista();
@@ -115,16 +124,22 @@ export default {
           "http://localhost/proyecto/mycouncil/src/bbdd/crudCo.php?accion=leer"
         )
         .then(function(response) {
-          _this.comics = response.data.comic;
-          console.log(_this.comics);
+          _this.Listacomics = response.data.comic;
         });
     },
+    getIds(ListaComics) {
+      const _this = this;
+      for (var i = 0; i <= ListaComics.length; i++) {
+        _this.comic.idComic = ListaComics[i].idComic;
+        console.log(_this.comic.idComic);
+      }
+    },
     crear() {
-      var data = new FormData();
-      data.append("nombre", this.nombreLista);
-      data.append("idComic", this.selectComics);
+      const _this = this;
+      var data = _this.toFormData(_this.comic);
+      data.append("nombre", _this.nombreLista);
       data.append("idUsuario", localStorage.getItem("id"));
-      console.log(this.selectComics);
+
       axios
         .post(
           "http://localhost/proyecto/mycouncil/src/bbdd/listas.php?accion=crear",
@@ -137,6 +152,13 @@ export default {
             _this.successMsg = response.data.message;
           }
         });
+    },
+    toFormData(obj) {
+      var fd = new FormData();
+      for (var i in obj) {
+        fd.append(i, obj[i]);
+      }
+      return fd;
     },
   },
 };
