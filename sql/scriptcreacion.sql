@@ -1,0 +1,83 @@
+CREATE DATABASE IF NOT EXISTS Council DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci;
+USE Council;
+
+CREATE TABLE Usuario(
+    idUsuario SMALLINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(50) NOT NULL UNIQUE,
+    correo VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(250) NOT NULL,
+    tipo char(1) NOT NULL,
+    pregunta VARCHAR(50) NOT NULL,
+    CONSTRAINT CH_tipo CHECK (tipo='a' OR tipo='u')
+);
+
+CREATE TABLE Lista(
+    idLista SMALLINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE Comentario(
+    idComentario SMALLINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    idUsuario SMALLINT UNSIGNED NOT NULL,
+    idComic SMALLINT UNSIGNED NOT NULL,
+    descripcion VARCHAR(500) NOT NULL
+);
+
+CREATE TABLE Puntuacion(  
+    idPuntuacion SMALLINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    idUsuario SMALLINT UNSIGNED NOT NULL,
+    idComic SMALLINT UNSIGNED NOT NULL,
+    puntuacion char(4) NOT NULL,
+    CONSTRAINT CH_puntuacion CHECK (puntuacion >= 0 AND puntuacion <= 5)
+);
+
+CREATE TABLE Comic(
+    idComic SMALLINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(100) NOT NULL UNIQUE,
+    isbn CHAR(13) NOT NULL UNIQUE,
+    numeroPaginas VARCHAR(3) NOT NULL,
+    fechaPublicacion  VARCHAR(10) NOT NULL,
+    idioma VARCHAR(50) NOT NULL,
+    editorial VARCHAR(50) NOT NULL,
+    portada VARCHAR(100) NULL
+);
+
+CREATE TABLE Sugerencia(
+    idSugerencia SMALLINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    idUsuario SMALLINT UNSIGNED NOT NULL,
+    nombreComic VARCHAR(50) NOT NULL,
+    descripcion VARCHAR(500) NOT NULL,
+    estado VARCHAR(10) DEFAULT 'Pendiente'
+);
+
+CREATE TABLE Categoria(
+    idCategoria TINYINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE UsuarioLista(
+    idUsuario SMALLINT UNSIGNED NOT NULL,
+    idLista SMALLINT UNSIGNED NOT NULL,
+    PRIMARY KEY (idUsuario,idLista),
+    CONSTRAINT FK_Usuario FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario),
+    CONSTRAINT FK_UsuarioLista FOREIGN KEY (idLista) REFERENCES Lista(idLista)
+);
+
+CREATE TABLE ListaComic(
+    idLista SMALLINT UNSIGNED NOT NULL,
+    idComic SMALLINT UNSIGNED NOT NULL,
+    PRIMARY KEY (idLista,idComic),
+    CONSTRAINT FK_Lista FOREIGN KEY (idLista) REFERENCES Lista(idLista),
+    CONSTRAINT FK_ListaComic FOREIGN KEY (idComic) REFERENCES Categoria(idComic)
+);
+
+CREATE TABLE CategoriaComic(
+    idCategoria  TINYINT UNSIGNED NOT NULL,
+    idComic SMALLINT UNSIGNED NOT NULL,
+    PRIMARY KEY (idCategoria,idComic),
+    CONSTRAINT FK_Categoria FOREIGN KEY (idCategoria) REFERENCES Categoria(idCategoria),
+    CONSTRAINT FK_CategoriaComic FOREIGN KEY (idComic) REFERENCES Comic(idComic)
+);
+
+
+
