@@ -32,7 +32,6 @@
               item-key="index"
               item-value="idComic"
               v-model="ListaComics"
-              multiple
               return-object
             >
             </v-select>
@@ -97,7 +96,7 @@ export default {
     nombreLista: "",
     items: [],
     Listacomics: [],
-    comic: { idComic: "" },
+    comic: { idComic:''},
   }),
   created: function() {
     this.getLista();
@@ -128,11 +127,11 @@ export default {
         });
     },
     getIds(ListaComics) {
-      const _this = this;
-      for (var i = 0; i <= ListaComics.length; i++) {
-        _this.comic.idComic = ListaComics[i].idComic;
-        console.log(_this.comic.idComic);
-      }
+      /* for (var i = 0; i <= ListaComics.length; i++) {
+        this.comic.idComic = ListaComics[i].idComic;      
+      } */
+      this.comic.idComic=ListaComics.idComic;
+      console.log(this.comic);
     },
     crear() {
       const _this = this;
