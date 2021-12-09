@@ -1,5 +1,10 @@
 # mycouncil
 
+## 1º Step
+```
+install node.js on your pc
+```
+
 ## Project setup
 ```
 npm install
