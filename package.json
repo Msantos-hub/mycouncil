@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test": "echo \" error la cagaste\" && exit 1",
+    "test": "echo \" error\" && exit 1",
     "docs": "jsdoc -c jsdoc.json"
   },
   "dependencies": {

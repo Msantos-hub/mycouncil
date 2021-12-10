@@ -1,5 +1,5 @@
 <template>
-<!--
+  <!--
   Manuel Jesús Santos García
   TFG CFGS 2º DAW 2021
   Pagina Base en las que todas las vistas se muestran
@@ -76,7 +76,7 @@
       <router-view />
     </v-main>
     <v-footer padless bottom class="black">
-      <v-col>
+      <v-col x12 md6>
         <ul>
           <li>
             <v-btn v-for="icon in icons" :key="icon" class="mx-4" dark icon>
@@ -84,6 +84,19 @@
                 {{ icon }}
               </v-icon>
             </v-btn>
+          </li>
+        </ul>
+      </v-col>
+      <v-col xs12 md6>
+        <ul class="avisos" dark>
+          <li>
+            <router-link to="" class="avisos"> Quienes somos </router-link>
+          </li>
+          <li>
+            <router-link to="" class="avisos"> Cookies </router-link>
+          </li>
+          <li>
+            <router-link to="" class="avisos"> Avisos legales </router-link>
           </li>
         </ul>
       </v-col>
@@ -97,6 +110,17 @@
 }
 .login {
   color: white;
+}
+.avisos {
+  color: white;
+  display: inline-block;
+}
+a:link,
+a:visited,
+a:hover,
+a:active {
+  color: white;
+  text-decoration: none;
 }
 .footer {
   background-color: black;
@@ -113,14 +137,13 @@ li {
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.0.2/dist/sweetalert2.all.min.js"></script>
 <script src="/js/vue-resource.js"></script>
 <script>
-export default { 
+export default {
   name: "App",
-  /** 
+  /**
    *  contiene todas las variables usadas en la vista
-  */
+   */
   data: () => ({
     icons: ["mdi-facebook", "mdi-twitter", "mdi-discord", "mdi-instagram"],
-    legalP: ["Que es MyCouncil", "Cookies", "LSIC", "Avisos Legales"],
     token: null,
     type: null,
   }),
@@ -131,17 +154,17 @@ export default {
     this.tokenexist();
   },
   methods: {
-    /** 
+    /**
      * comprueba que existe un token
-    */
+     */
     tokenexist() {
       var _this = this;
       _this.token = localStorage.getItem("id");
       _this.type = localStorage.getItem("userType");
     },
-    /** 
-     * borra los tokens del localstorage para cerrar la sesion del usuario 
-    */
+    /**
+     * borra los tokens del localstorage para cerrar la sesion del usuario
+     */
     logout() {
       localStorage.removeItem("id");
       localStorage.removeItem("userName");

@@ -264,7 +264,34 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/categorias/CategoriaW.vue')
-  }  
+  },
+  /**
+   * Avisos legales
+   */
+   {
+    path: '/quienessomos',
+    name: 'QuienesSomos',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/avisos/QuienesSomos.vue')
+  },
+  {
+    path: '/cookies',
+    name: 'Cookies',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/avisos/Cookies.vue')
+  },
+  {
+    path: '/avisolegal',
+    name: 'Avisolegal',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/categorias/Avisolegal.vue')
+  },
 ]
 
 const router = new VueRouter({
