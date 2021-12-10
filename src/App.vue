@@ -90,13 +90,13 @@
       <v-col xs12 md6>
         <ul class="avisos" dark>
           <li>
-            <router-link to="" class="avisos"> Quienes somos </router-link>
+            <router-link to="/quienessomos" class="avisos"> Quienes somos </router-link>
           </li>
           <li>
-            <router-link to="" class="avisos"> Cookies </router-link>
+            <router-link to="/cookies" class="avisos"> Cookies </router-link>
           </li>
           <li>
-            <router-link to="" class="avisos"> Avisos legales </router-link>
+            <router-link to="/avisolegal" class="avisos"> Avisos legales </router-link>
           </li>
         </ul>
       </v-col>

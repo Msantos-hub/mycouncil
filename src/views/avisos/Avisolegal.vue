@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="text-center">
     <h1>PROTECCIÓN DE DATOS</h1>
     <p>
       De conformidad con lo establecido en los artículos 5 y 6 de la Ley

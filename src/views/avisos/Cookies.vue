@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="text-center">
     <h1>COOKIES</h1>
     <p>
       La página web MyCouncil utiliza o puede utilizar

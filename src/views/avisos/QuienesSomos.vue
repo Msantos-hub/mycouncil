@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="text-center">
     <h1>QUIENES SOMOS</h1>
     <p>
       MyCouncil a sido creado como trabajo de fin de grado. A raiz de la
