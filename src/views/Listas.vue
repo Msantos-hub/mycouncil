@@ -11,6 +11,15 @@
               datos por favor en la seccion sugerencias puedes indicarnos que
               comic añadir en un futuro a nuestra coleccion.
             </p>
+            <p>
+              Paso para la creacion de las listas.
+              <ol type="1">
+                <li>1º Rellenar el nombre de la lista.</li>
+                <li>2º Seleccionar los comics a añadir.</li>
+                <li>3º Pulsar boton recoger comics.</li>
+                <li>4º Pulsar Crear lista.</li>
+              </ol>
+            </p>
             <v-avatar size="400" rounded>
               <v-img src="../assets/img/logos/wantyou.jpg"></v-img>
             </v-avatar>
@@ -40,15 +49,17 @@
               color="light-blue darken-1"
               class="mr-5 mt-5"
               dark
+              v-if="token != null"
               @click="getIds(ListaComics)"
             >
-              Crear Lista
+              recoger comics
             </v-btn>
             <v-btn
               bottom
               color="light-blue darken-1"
               class="mr-5 mt-5"
               dark
+              v-if="token != null"
               @click="crear()"
             >
               Crear Lista
@@ -64,22 +75,15 @@
           </v-toolbar>
           <v-list>
             <v-list-group
-              v-for="item in items"
-              :key="item.title"
-              v-model="item.active"
-              :prepend-icon="item.action"
+              v-for="item in lista"
+              :key="item.id"
               no-action
             >
               <template v-slot:activator>
                 <v-list-item-content>
-                  <v-list-item-title v-text="item.title"></v-list-item-title>
+                  <v-list-item-title v-text="item.nombre"></v-list-item-title>
                 </v-list-item-content>
-              </template>
-              <v-list-item v-for="child in item.items" :key="child.title">
-                <v-list-item-content>
-                  <v-list-item-title v-text="child.title"></v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
+              </template>             
             </v-list-group>
           </v-list>
         </v-card>
@@ -90,30 +94,45 @@
 <script>
 import axios from "axios";
 export default {
+  /** 
+   *  contiene todas las variables usadas en la vista
+  */
   data: () => ({
     ListaComics: [],
     selectComics: "",
     nombreLista: "",
     items: [],
     Listacomics: [],
+    lista:[],
     comic: { idComic:''},
+    token: null
   }),
   created: function() {
     this.getLista();
     this.getComics();
   },
+  updated() {
+    this.tokenexist();
+  },
   methods: {
+    /** 
+     * comprueba que existe un token
+    */
+    tokenexist() {
+      var _this = this;
+      _this.token = localStorage.getItem("id");    
+    },
     async getLista() {
       const _this = this;
       var data = new FormData();
       data.append("idUsuario", localStorage.getItem("id"));
-      const datos = await axios
+      await axios
         .post(
           "http://localhost/proyecto/mycouncil/src/bbdd/listas.php?accion=leer",
           data
         )
         .then(function(response) {
-          _this.lista = response.data.comics;
+          _this.lista = response.data.lista;
         });
     },
     async getComics() {
@@ -149,6 +168,7 @@ export default {
             _this.errorMsg = response.data.message;
           } else {
             _this.successMsg = response.data.message;
+            location.reload();
           }
         });
     },

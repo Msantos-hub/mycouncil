@@ -50,6 +50,9 @@
 <script>
 import axios from "axios";
 export default {
+  /** 
+   *  contiene todas las variables usadas en la vista
+  */
   name: "login",
   data() {
     return {
@@ -65,7 +68,13 @@ export default {
       userInfo: [],
     };
   },
+    /**
+   *  contiene todas las funciones que se han utilizado en la vista
+   */
   methods: {
+    /**
+     * funcion de inicio de sesion recoge los datos del usuario y los guarda en el localstorage que se mantendran hasta cerrar sesion
+     */
     async login() {
       var data = new FormData();
       data.append("correo", this.userData.correo);

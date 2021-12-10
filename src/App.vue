@@ -108,26 +108,35 @@ li {
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.0.2/dist/sweetalert2.all.min.js"></script>
 <script src="/js/vue-resource.js"></script>
 <script>
-export default {
-  /** comprueba que existe un token */
+export default { 
   name: "App",
+  /** 
+   *  contiene todas las variables usadas en la vista
+  */
   data: () => ({
     icons: ["mdi-facebook", "mdi-twitter", "mdi-discord", "mdi-instagram"],
     legalP: ["Que es MyCouncil", "Cookies", "LSIC", "Avisos Legales"],
     token: null,
     type: null,
   }),
+  /**
+   * ciclo de vida de vue cuando se modifica la vista comprueba
+   */
   updated() {
     this.tokenexist();
   },
   methods: {
-    /** comprueba que existe un token */
+    /** 
+     * comprueba que existe un token
+    */
     tokenexist() {
       var _this = this;
       _this.token = localStorage.getItem("id");
       _this.type = localStorage.getItem("userType");
     },
-    /** borra los tokens del localstorage para cerrar la sesion del usuario */
+    /** 
+     * borra los tokens del localstorage para cerrar la sesion del usuario 
+    */
     logout() {
       localStorage.removeItem("id");
       localStorage.removeItem("userName");

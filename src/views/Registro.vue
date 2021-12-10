@@ -60,10 +60,9 @@
         ><br />
         <div id="formFooter">
           <v-btn class="light-blue" dark @click="addUsuario()">
-          Registrarse</v-btn
-        >
+            Registrarse</v-btn
+          >
         </div>
-        
       </form>
     </div>
   </div>
@@ -75,6 +74,9 @@ import axios from "axios";
 export default {
   name: "login",
   data() {
+    /**
+     * contiene todas las variables usadas en la vista
+     */
     return {
       newUsuario: {
         nombre: "",
@@ -88,31 +90,39 @@ export default {
   components: {},
 
   methods: {
+    /**
+     * funcion que añade un nuevo usuario, mediante una peticion axios manda los datos a la pagina php para realizar la consulta
+     */
     addUsuario() {
       const _this = this;
-      if(_this.newUsuario.nombre !=''&& _this.newUsuario.correo != '' && _this.newUsuario.password !='' && _this.newUsuario.pregunta){
+      if (
+        _this.newUsuario.nombre != "" &&
+        _this.newUsuario.correo != "" &&
+        _this.newUsuario.password != "" &&
+        _this.newUsuario.pregunta
+      ) {
         var formData = _this.toFormData(_this.newUsuario);
-      axios
-        .post(
-          "http://localhost/proyecto/mycouncil/src/bbdd/login.php?accion=registro",
-          formData
-        )
-        .then(function(response) {
-          _this.newUsuario = {
-            nombre: "",
-            correo: "",
-            password: "",
-            tipo: "u",
-            pregunta: "",
-          };
-          if(response.data.error){
-                alert(response.data.message)
-            }else{                                               
-                alert(response.data.message) 
-                _this.$router.push("/login");                     
-            }     
-        });
-      }    
+        axios
+          .post(
+            "http://localhost/proyecto/mycouncil/src/bbdd/login.php?accion=registro",
+            formData
+          )
+          .then(function(response) {
+            _this.newUsuario = {
+              nombre: "",
+              correo: "",
+              password: "",
+              tipo: "u",
+              pregunta: "",
+            };
+            if (response.data.error) {
+              alert(response.data.message);
+            } else {
+              alert(response.data.message);
+              _this.$router.push("/login");
+            }
+          });
+      }
     },
 
     toFormData(obj) {

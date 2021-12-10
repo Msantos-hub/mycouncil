@@ -20,7 +20,7 @@
                       <h1>Bienvenido</h1>
                     </v-list-item-title>
                     <v-list-item-title class="text-h6 mb-5">
-                      {{nombre}}
+                      {{ nombre }}
                     </v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
@@ -92,13 +92,13 @@
             </v-form>
           </v-card-text>
           <v-alert type="error" dense block v-if="errorMsg" class="mt-5">
-        {{ errorMsg }}
-      </v-alert>
-      <v-alert type="success" dense block v-if="successMsg" class="mt-5">
-        {{ successMsg }}
-      </v-alert>
+            {{ errorMsg }}
+          </v-alert>
+          <v-alert type="success" dense block v-if="successMsg" class="mt-5">
+            {{ successMsg }}
+          </v-alert>
         </v-card>
-      </v-flex>   
+      </v-flex>
     </v-layout>
     <v-dialog v-model="editar" width="700" persistent>
       <v-card>
@@ -155,6 +155,9 @@
 import axios from "axios";
 export default {
   name: "perfil",
+  /**
+   * contiene todas las variables usadas en la vista
+   */
   data() {
     return {
       valid: true,
@@ -179,10 +182,19 @@ export default {
       nombre: localStorage.getItem("userName"),
     };
   },
+  /**
+   * ciclo de vida de vue al crear la pagina ejecuta la funcion
+   */
   created: function() {
     this.getUsuarios();
   },
+  /**
+   * contiene todas las funciones utilizadas en la vista
+   */
   methods: {
+    /**
+     * funcion que recoge los datos de los ususarios mediante una peticion axios
+     */
     getUsuarios() {
       var data = new FormData();
       const _this = this;
@@ -196,7 +208,9 @@ export default {
           _this.listaUsuarios = response.data.usuario;
         });
     },
-
+    /**
+     *funcion que actualiza los datos del usuario mediante una peticion axios a la que se le pasan los datos a enviar a la pagina php
+     */
     updateUsuario() {
       const _this = this;
       var formData = _this.toFormData(_this.actualUsuario);
@@ -206,7 +220,7 @@ export default {
           formData
         )
         .then(function(response) {
-          _this.actualUsuario = {};        
+          _this.actualUsuario = {};
           if (response.data.error) {
             _this.errorMsg = response.data.message;
             location.reload();
@@ -216,7 +230,9 @@ export default {
           }
         });
     },
-
+  /**
+   * funcion de seleccion de usuario, se utiliza para recopilar los datos que se van a enviar a las funciones de borrado o modificacion
+   */
     selectUsuario(usuario) {
       this.actualUsuario.nombre = usuario.nombre;
       this.actualUsuario.correo = usuario.correo;

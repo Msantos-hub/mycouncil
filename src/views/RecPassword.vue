@@ -23,6 +23,9 @@
 <script>
 export default ({
     name:'recPass',
+     /**
+   * contiene todas las variables usadas en la vista
+   */
     setdataup() {
         return{
 

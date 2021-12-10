@@ -238,7 +238,9 @@
 <script>
 import axios from "axios";
 export default {
-  ///* Contenedor de datos, variable, arrays, etc... */
+  /**
+   * contiene todas las variables usadas en la vista
+   */
   data() {
     return {
       errorMsg: "",
@@ -259,29 +261,45 @@ export default {
       select: null,
       items: ["a", "u"],
       listaUsuarios: [],
-      newUsuario: {nombre: "", correo: "", password: "", tipo: ""},
-      actualUsuario: {idUsuario:'', nombre: "", correo: "", password: "", tipo: "" },
+      newUsuario: { nombre: "", correo: "", password: "", tipo: "" },
+      actualUsuario: {
+        idUsuario: "",
+        nombre: "",
+        correo: "",
+        password: "",
+        tipo: "",
+      },
     };
   },
 
-  ///* ciclo de vida de cue */
+  /**
+   * ciclo de vida de cue
+   */
   created: function() {
     this.getUsuarios();
   },
 
-  ///* Contenedor de metodos */
+  /**
+   * Contenedor de metodos
+   */
   methods: {
-    /* Recoge y lee los datos traidos por la query */
+    /**
+     * Recoge y lee los datos traidos por la query
+     */
     async getUsuarios() {
       const _this = this;
       await axios
-        .get("http://localhost/proyecto/mycouncil/src/bbdd/crudU.php?accion=leer")
+        .get(
+          "http://localhost/proyecto/mycouncil/src/bbdd/crudU.php?accion=leer"
+        )
         .then(function(response) {
           _this.listaUsuarios = response.data.usuario;
         });
     },
 
-    /* recoge y manda a la query de adicion los datos que hay que añadir a la base de datos */
+    /**
+     *  recoge y manda a la query de adicion los datos que hay que añadir a la base de datos
+     */
     addUsuario() {
       const _this = this;
       var formData = _this.toFormData(_this.newUsuario);
@@ -306,7 +324,9 @@ export default {
         });
     },
 
-    /* Recoge y manda los datos a actualizar en la base de datos */
+    /**
+     * Recoge y manda los datos a actualizar en la base de datos
+     */
     updateUsuario() {
       const _this = this;
       var formData = _this.toFormData(_this.actualUsuario);
@@ -324,10 +344,12 @@ export default {
             _this.successMsg = response.data.message;
             _this.getUsuarios();
           }
-        });       
+        });
     },
 
-    /* Recoge y manda los datos a la query de borrado */
+    /**
+     * Recoge y manda los datos a la query de borrado
+     */
     deleteUsuario() {
       const _this = this;
       var formData = _this.toFormData(_this.actualUsuario);
@@ -355,23 +377,29 @@ export default {
       return fd;
     },
 
-    /* selecciona el item actual del array */
+    /**
+     *  selecciona el item actual del array
+     */
     selectUsuario(usuario) {
-      const _this = this;      
-      _this.actualUsuario.idUsuario=usuario.idUsuario;
+      const _this = this;
+      _this.actualUsuario.idUsuario = usuario.idUsuario;
       _this.actualUsuario.nombre = usuario.nombre;
       _this.actualUsuario.correo = usuario.correo;
       _this.actualUsuario.password = usuario.password;
       _this.actualUsuario.tipo = usuario.tipo;
     },
 
-    ///* limpia los mensajes de error y  success */
+    /**
+     * limpia los mensajes de error y  success
+     */
     clearMsg() {
       _this.errorMsg = "";
       _this.successMsg = "";
     },
 
-    ///* Valida y resetea el formulario */
+    /**
+     * Valida y resetea el formulario
+     */
     validate() {
       this.$refs.form.validate();
     },

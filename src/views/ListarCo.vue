@@ -279,7 +279,9 @@
 <script>
 import axios from "axios";
 export default {
-  //Contenedor de datos, variable, arrays, etc...
+  /**
+   * contiene todas las variables usadas en la vista
+   */
   data() {
     return {
       errorMsg: "",
@@ -325,15 +327,22 @@ export default {
       },
     };
   },
-
-  //Ciclos de vida vue
+  
+  /**
+   * Ciclos de vida vue
+   */
   created: function() {
     this.getComics();
   },
-
-  //Contenedor de metodos
+  
+  /**
+   * Contenedor de metodos
+   */
   methods: {
-    //Recoge y lee los datos traidos por la query
+    
+    /**
+     * Recoge y lee los datos traidos por la query
+     */
     async getComics() {
       const _this = this;
       const datos = await axios
@@ -344,8 +353,10 @@ export default {
           _this.comics = response.data.comic;
         });
     },
-
-    //recoge y manda a la query de adicion los datos que hay que añadir a la base de datos
+    
+    /**
+     * recoge y manda a la query de adicion los datos que hay que añadir a la base de datos
+     */
     addComics() {
       const _this = this;
       var formData = _this.toFormData(_this.newComic);
@@ -364,8 +375,10 @@ export default {
           }
         });
     },
-
-    //Recoge y manda los datos a actualizar en la base de datos
+    
+    /**
+     * Recoge y manda los datos a actualizar en la base de datos
+     */
     updateComics() {
       const _this = this;
       var formData = _this.toFormData(_this.currentComic);
@@ -384,8 +397,10 @@ export default {
           }
         });
     },
-
-    //Recoge y manda los datos a la query de borrado
+    
+    /**
+     * Recoge y manda los datos a la query de borrado
+     */
     deleteComics() {
       const _this = this;
       var formData = _this.toFormData(_this.currentComic);
@@ -412,8 +427,10 @@ export default {
       }
       return fd;
     },
-
-    //selecciona el item actual del array
+    
+    /**
+     * selecciona el item actual del array
+     */
     selectComic(comic) {
       const _this = this;
       _this.currentComic.idComic = comic.idComic;
@@ -425,13 +442,18 @@ export default {
       _this.currentComic.editorial = comic.editorial;
       _this.currentComic.portada = comic.portada;
     },
-
-    //limpia los mensajes de error y  success
+    
+    /**
+     * limpia los mensajes de error y  success
+     */
     clearMsg() {
       _this.errorMsg = "";
       _this.successMsg = "";
     },
-    //Valida y resetea el formulario
+    
+    /**
+     * Valida y resetea el formulario
+     */
     validate() {
       this.$refs.form.validate();
     },

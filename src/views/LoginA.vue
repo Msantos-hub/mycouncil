@@ -14,7 +14,7 @@
       </div>
       <!-- Login Form -->
       <form v-on:submit.prevent="login">
-        <label>Inicio de sesion para administradores</label><br>
+        <label>Inicio de sesion para administradores</label><br />
         <v-icon>mdi-account-circle</v-icon
         ><input
           type="text"
@@ -52,6 +52,9 @@
 import axios from "axios";
 export default {
   name: "login",
+  /**
+   * contiene todas las variables usadas en la vista
+   */
   data() {
     return {
       correo: "",
@@ -66,7 +69,13 @@ export default {
       userInfo: [],
     };
   },
+  /**
+   * contiene todas las funciones utilizadas en la vista
+   */
   methods: {
+    /**
+     * funcion de inicio de sesion recoge los datos del usuario y los guarda en el localstorage que se mantendran hasta cerrar sesion
+     */
     login() {
       var data = new FormData();
       data.append("correo", this.userData.correo);
@@ -80,10 +89,10 @@ export default {
           if (response.data.error) {
             this.error = true;
             this.errorMsg = response.data.message;
-          } else { 
-            localStorage.setItem('id', response.data.usuario[0].idUsuario);
-            localStorage.setItem('userName', response.data.usuario[0].nombre);
-            localStorage.setItem('userType', 'a')                     
+          } else {
+            localStorage.setItem("id", response.data.usuario[0].idUsuario);
+            localStorage.setItem("userName", response.data.usuario[0].nombre);
+            localStorage.setItem("userType", "a");
             this.$router.push("/Controlpanel");
           }
         })

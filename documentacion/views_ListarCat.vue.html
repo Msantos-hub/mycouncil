@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: views/ListarCat.vue</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: views/ListarCat.vue</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>&lt;template>
+  &lt;v-container class="mt-5">
+    &lt;v-layout row wrap>
+      &lt;v-flex xs12>
+        &lt;v-btn color="blue-grey lighten-3" to="/Controlpanel" rounded>
+          &lt;v-icon class="mr-2">mdi-arrow-left-circle&lt;/v-icon>
+          Volver a gestión
+        &lt;/v-btn>
+        &lt;v-btn
+          color="green darken-1"
+          @click="addCategoria, (add = true)"
+          rounded
+          class="ml-2"
+          dark
+        >
+          &lt;v-icon class="mr-2">mdi-account-plus&lt;/v-icon>
+          Agregar categoria
+        &lt;/v-btn>
+        &lt;v-alert type="error" dense block v-if="errorMsg" class="mt-5">
+          {{ errorMsg }}
+        &lt;/v-alert>
+        &lt;v-alert type="success" dense block v-if="successMsg" class="mt-5">
+          {{ successMsg }}
+        &lt;/v-alert>
+      &lt;/v-flex>
+    &lt;/v-layout>
+    &lt;v-layout row wrap class="mt-5">
+      &lt;v-flex xs12>
+        &lt;template>
+          &lt;v-simple-table>
+            &lt;template v-slot:default>
+              &lt;thead>
+                &lt;tr class="primary">
+                  &lt;th class="text-left white--text">
+                    id
+                  &lt;/th>
+                  &lt;th class="text-left white--text">
+                    Nombre
+                  &lt;/th>
+                  &lt;th class="text-left white--text">
+                    Acciones
+                  &lt;/th>
+                &lt;/tr>
+              &lt;/thead>
+              &lt;tbody>
+                &lt;tr v-for="(categoria, index) of categoria" :key="index">
+                  &lt;td>{{ categoria.idCategoria }}&lt;/td>
+                  &lt;td>{{ categoria.nombre }}&lt;/td>
+                  &lt;td>
+                    &lt;v-btn
+                      color="light-blue"
+                      dark
+                      rounded
+                      @click="(editar = true), selectCategoria(categoria)"
+                    >
+                      &lt;v-icon>mdi-pencil&lt;/v-icon>
+                    &lt;/v-btn>
+                    &lt;v-btn
+                      color="error"
+                      rounded
+                      class="ml-5"
+                      @click="(deleteDialog = true), selectCategoria(categoria)"
+                    >
+                      &lt;v-icon>mdi-trash-can&lt;/v-icon>
+                    &lt;/v-btn>
+                  &lt;/td>
+                &lt;/tr>
+              &lt;/tbody>
+            &lt;/template>
+          &lt;/v-simple-table>
+        &lt;/template>
+      &lt;/v-flex>
+    &lt;/v-layout>
+    &lt;!-- Agregar categoria-->
+    &lt;v-dialog v-model="add" width="700" persistent>
+      &lt;v-card>
+        &lt;v-toolbar-title class="info text-center">
+          Añadir categoria&lt;/v-toolbar-title
+        >
+        &lt;v-form ref="form" v-model="valid" class="ma-5">
+          &lt;v-text-field
+            v-model="newCategoria.nombre"
+            prepend-icon="mdi-format-title"
+            :rules="nameRules"
+            label="Nombre de categoria"
+            required
+          >&lt;/v-text-field>
+          &lt;v-btn
+            :disabled="!valid"
+            color="success"
+            class="mr-4"
+            @click="
+              validate;
+              addCategoria();
+              add = false;
+            "
+          >
+            Aceptar&lt;/v-btn
+          >
+          &lt;v-btn color="error" class="mr-4" @click="add = false">
+            Cerrar
+          &lt;/v-btn>
+          &lt;v-btn color="warning" @click="resetValidation"
+            >Reiniciar formulario
+          &lt;/v-btn>
+        &lt;/v-form>
+      &lt;/v-card>
+    &lt;/v-dialog>
+
+    &lt;!--editar -->
+    &lt;v-dialog v-model="editar" width="700" persistent>
+      &lt;v-card>
+        &lt;v-toolbar-title class="info text-center">
+          Editar categoria&lt;/v-toolbar-title
+        >
+        &lt;v-form ref="form" v-model="valid" class="ma-5">
+          &lt;v-text-field
+            v-model="currentCategoria.nombre"
+            prepend-icon="mdi-format-title"
+            :rules="nameRules"
+            label="Nombre de categoria"
+            required
+          >&lt;/v-text-field>
+          &lt;v-btn
+            :disabled="!valid"
+            color="success"
+            class="mr-4"
+            @click="validate, updateCategoria(), (editar = !editar)"
+          >
+            Aceptar&lt;/v-btn
+          >
+          &lt;v-btn color="error" class="mr-4" @click="editar = !editar">
+            Cerrar
+          &lt;/v-btn>
+          &lt;v-btn color="warning" @click="resetValidation"
+            >Reiniciar formulario
+          &lt;/v-btn>
+        &lt;/v-form>
+      &lt;/v-card>
+    &lt;/v-dialog>
+    &lt;!-- ELiminar -->
+    &lt;v-dialog persistent max-width="350" v-model="deleteDialog">
+      &lt;v-card>
+        &lt;v-card-title>
+          Eliminar categoria
+        &lt;/v-card-title>
+        &lt;v-card-text>
+          &lt;h3>¿Seguro que quiere eliminar este categoria?&lt;/h3>
+          &lt;h3>Esta borrando el categoria "{{ currentCategoria.nombre }}"&lt;/h3>
+        &lt;/v-card-text>
+        &lt;v-card-actions>
+          &lt;v-spacer>&lt;/v-spacer>
+          &lt;v-btn
+            color="green darken-1"
+            text
+            @click="(deleteDialog = false), deleteCategoria(), clearMsg()"
+          >
+            Si
+          &lt;/v-btn>
+          &lt;v-btn color="green darken-1" text @click="deleteDialog = false">
+            No
+          &lt;/v-btn>
+        &lt;/v-card-actions>
+      &lt;/v-card>
+    &lt;/v-dialog>
+  &lt;/v-container>
+&lt;/template>
+
+&lt;script>
+import axios from "axios";
+export default {
+  /**
+   * contiene todas las variables usadas en la vista
+   */
+  data() {
+    return {
+      errorMsg: "",
+      successMsg: "",
+      add: false,
+      editar: false,
+      deleteDialog: false,
+      valid: true,
+      name: "",
+      nameRules: [(v) => !!v || "El nombre del categoria no se a rellenado"],
+      categoria: [],
+      newCategoria: { nombre: "" },
+      currentCategoria: { idCategoria: "", nombre: "" },
+    };
+  },
+
+  /**
+   * Ciclos de vida vue
+   */
+  mounted() {
+    this.getCategorias();
+  },
+
+  /**
+   * Contenedor de metodos
+   */
+  methods: {
+    /**
+     * Recoge y lee los datos traidos por la query
+     */
+    async getCategorias() {
+      const _this = this;
+      const datos = await axios
+        .get(
+          "http://localhost/proyecto/mycouncil/src/bbdd/crudCat.php?accion=leer"
+        )
+        .then(function(response) {
+          _this.categoria = response.data.categoria;
+        });
+    },
+
+    /**
+     * recoge y manda a la query de adicion los datos que hay que añadir a la base de datos
+     */
+    addCategoria() {
+      const _this = this;
+      var formData = _this.toFormData(_this.newCategoria);
+      axios
+        .post(
+          "http://localhost/proyecto/mycouncil/src/bbdd/crudCat.php?accion=crear",
+          formData
+        )
+        .then(function(response) {
+          _this.newCategoria = { nombre: "" };
+          if (response.data.error) {
+            _this.errorMsg = response.data.message;
+          } else {
+            _this.successMsg = response.data.message;
+            _this.getCategorias();
+          }
+        });
+    },
+
+    /**
+     * Recoge y manda los datos a actualizar en la base de datos
+     */
+    updateCategoria() {
+      const _this = this;
+      var formData = _this.toFormData(_this.currentCategoria);
+      axios
+        .post(
+          "http://localhost/proyecto/mycouncil/src/bbdd/crudCat.php?accion=editar",
+          formData
+        )
+        .then(function(response) {
+          _this.currentCategoria = {};
+          if (response.data.error) {
+            _this.errorMsg = response.data.message;
+          } else {
+            _this.successMsg = response.data.message;
+            _this.getCategorias();
+          }
+        });
+    },
+
+    /**
+     * Recoge y manda los datos a la query de borrado
+     */
+    deleteCategoria() {
+      const _this = this;
+      var formData = _this.toFormData(_this.currentCategoria);
+      axios
+        .post(
+          "http://localhost/proyecto/mycouncil/src/bbdd/crudCat.php?accion=borrar",
+          formData
+        )
+        .then(function(response) {
+          _this.currentCategoria = {};
+          if (response.data.error) {
+            _this.errorMsg = response.data.message;
+          } else {
+            _this.successMsg = response.data.message;
+            _this.getCategorias();
+          }
+        });
+    },
+
+    toFormData(obj) {
+      var fd = new FormData();
+      for (var i in obj) {
+        fd.append(i, obj[i]);
+      }
+      return fd;
+    },
+
+    /**
+     *selecciona el item actual del array
+     */
+    selectCategoria(categoria) {
+      const _this = this;
+      _this.currentCategoria.idCategoria = categoria.idCategoria;
+      _this.currentCategoria.nombre = categoria.nombre;
+    },
+
+    /**
+     * limpia los mensajes de error
+     */
+    clearMsg() {
+      _this.errorMsg = "";
+      _this.successMsg = "";
+    },
+
+    /**
+     * Valida y resetea el formulario
+     */
+    validate() {
+      this.$refs.form.validate();
+    },
+    reset() {
+      this.$refs.form.reset();
+    },
+    resetValidation() {
+      this.$refs.form.resetValidation();
+    },
+  },
+};
+&lt;/script>
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#routes">routes</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Dec 10 2021 16:51:23 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

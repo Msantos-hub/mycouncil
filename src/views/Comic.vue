@@ -27,8 +27,8 @@
               <template>
                 <tbody>
                   <tr>
-                    <td class="text-right">usuario =></td>
-                    <td class="text-left">comentario  rwrwer rwq rwer wqer wer wqr wr qw qwr wqr wqer qw</td>
+                    <td class="text-right"></td>
+                    <td class="text-left"></td>
                   </tr>
                 </tbody>
               </template>
@@ -39,20 +39,20 @@
       <v-flex xs12 md6 class="text-center ">
         <div class="alto mt-5">
           <div>
-              Puntuación <span class="text-caption mr-2"> ({{ rating }}) </span>
-              <v-rating
-                v-model="rating"
-                background-color="black"
-                color="yellow accent-4"              
-                half-increments
-                hover
-                size="25"
-              ></v-rating>
-            </div>
+            Puntuación <span class="text-caption mr-2"> ({{ rating }}) </span>
+            <v-rating
+              v-model="rating"
+              background-color="black"
+              color="yellow accent-4"
+              half-increments
+              hover
+              size="25"
+            ></v-rating>
+          </div>
           <ul>
-            <li>ISBN: {isbn} </li>
-            <li>idioma: {idioma} </li>
-            <li>Numero de Paginas: {numeroPaginas} </li>
+            <li>ISBN: {isbn}</li>
+            <li>idioma: {idioma}</li>
+            <li>Numero de Paginas: {numeroPaginas}</li>
             <li>Fecha de Publicacion: {fechaPublicacion}</li>
             <li>Editorial: {editorial}</li>
           </ul>
@@ -63,9 +63,34 @@
 </template>
 <script>
 export default {
+  /**
+   * contiene todas las variables usadas en la vista
+   */
   data: () => ({
     rating: 0,
+    comics: [],
   }),
+  /**
+   * ciclo de vida de vue al crear la pagina ejecuta la funcion
+   */
+  created: function() {
+    this.getComics();
+  },
+  methods: {
+    /**
+     * recoge los datos a mostrar en la vista mediante una peticion axios
+     */
+    async getComics() {
+      const _this = this;
+      await axios
+        .get(
+          "http://localhost/proyecto/mycouncil/src/bbdd/crudCo.php?accion=leer"
+        )
+        .then(function(response) {
+          _this.comics = response.data.comic;
+        });
+    },
+  },
 };
 </script>
 <style>

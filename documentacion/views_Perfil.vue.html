@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: views/Perfil.vue</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: views/Perfil.vue</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>&lt;template>
+  &lt;v-container>
+    &lt;v-layout row wrap class="mt-10">
+      &lt;v-flex xs12 md3>
+        &lt;v-card max-width="500" tile>
+          &lt;v-img
+            height="100%"
+            src="https://cdn.vuetifyjs.com/images/cards/server-room.jpg"
+          >
+            &lt;v-row align="end" class="fill-height">
+              &lt;v-col align-self="auto" class="pa-10 " cols="12">
+                &lt;v-avatar class="profile" color="grey" size="150">
+                  &lt;v-img src="../assets/img/logos/user.png">&lt;/v-img>
+                &lt;/v-avatar>
+              &lt;/v-col>
+              &lt;v-col class="py-0">
+                &lt;v-list-item color="rgba(0, 0, 0, .4)" dark>
+                  &lt;v-list-item-content>
+                    &lt;v-list-item-title class="text-h6 mb-5">
+                      &lt;h1>Bienvenido&lt;/h1>
+                    &lt;/v-list-item-title>
+                    &lt;v-list-item-title class="text-h6 mb-5">
+                      {{ nombre }}
+                    &lt;/v-list-item-title>
+                  &lt;/v-list-item-content>
+                &lt;/v-list-item>
+              &lt;/v-col>
+            &lt;/v-row>
+          &lt;/v-img>
+        &lt;/v-card>
+      &lt;/v-flex>
+      &lt;v-flex xs12 md9>
+        &lt;v-card class="grey lighten-1">
+          &lt;v-toolbar-title class="text-center blue">
+            &lt;h2>Datos del Usuario&lt;/h2>
+          &lt;/v-toolbar-title>
+          &lt;v-card-text>
+            &lt;v-form class="white">
+              &lt;v-container>
+                &lt;div v-for="(usuario, index) of listaUsuarios" :key="index">
+                  &lt;v-row>
+                    &lt;v-col cols="12" sm="6" md="6">
+                      &lt;v-text-field
+                        label="Nombre de usuario"
+                        prepend-icon="mdi-format-title"
+                        v-model="usuario.nombre"
+                        :counter="20"
+                        :rules="nameRules"
+                        outlined
+                      >&lt;/v-text-field>
+                    &lt;/v-col>
+                    &lt;v-col cols="12" sm="6" md="6">
+                      &lt;v-text-field
+                        label="Correo electronico"
+                        prepend-icon="mdi-at"
+                        v-model="usuario.correo"
+                        :rules="emailRules"
+                        outlined
+                      >&lt;/v-text-field>
+                    &lt;/v-col>
+                    &lt;v-col cols="12" sm="6" md="6">
+                      &lt;v-text-field
+                        label="Contraseña"
+                        outlined
+                        prepend-icon="mdi-lock"
+                        v-model="usuario.password"
+                        :rules="passwRules"
+                      >&lt;/v-text-field>
+                    &lt;/v-col>
+                    &lt;v-col cols="12" sm="6" md="6">
+                      &lt;v-text-field
+                        label="Pregunta secreta"
+                        prepend-icon="mdi-help-circle"
+                        v-model="usuario.pregunta"
+                        :rules="passwRules"
+                        outlined
+                      >&lt;/v-text-field>
+                    &lt;/v-col>
+                  &lt;/v-row>
+                  &lt;v-card-actions>
+                    &lt;v-btn
+                      block
+                      bottom
+                      color="success"
+                      @click="(editar = true), selectUsuario(usuario)"
+                    >
+                      Modificar
+                    &lt;/v-btn>
+                  &lt;/v-card-actions>
+                &lt;/div>
+              &lt;/v-container>
+            &lt;/v-form>
+          &lt;/v-card-text>
+          &lt;v-alert type="error" dense block v-if="errorMsg" class="mt-5">
+            {{ errorMsg }}
+          &lt;/v-alert>
+          &lt;v-alert type="success" dense block v-if="successMsg" class="mt-5">
+            {{ successMsg }}
+          &lt;/v-alert>
+        &lt;/v-card>
+      &lt;/v-flex>
+    &lt;/v-layout>
+    &lt;v-dialog v-model="editar" width="700" persistent>
+      &lt;v-card>
+        &lt;v-toolbar-title class="info text-center">
+          Editar Usuario
+        &lt;/v-toolbar-title>
+        &lt;v-form ref="form" v-model="valid" class="ma-5">
+          &lt;v-text-field
+            prepend-icon="mdi-format-title"
+            v-model="actualUsuario.nombre"
+            :counter="20"
+            :rules="nameRules"
+            label="Nombre de usuario"
+            required
+          >&lt;/v-text-field>
+          &lt;v-text-field
+            prepend-icon="mdi-at"
+            v-model="actualUsuario.correo"
+            :rules="emailRules"
+            label="Correo"
+            required
+          >&lt;/v-text-field>
+          &lt;v-text-field
+            prepend-icon="mdi-lock"
+            v-model="actualUsuario.password"
+            :rules="passwRules"
+            label="Contraseña"
+            required
+          >&lt;/v-text-field>
+          &lt;v-text-field
+            label="Pregunta secreta"
+            prepend-icon="mdi-help-circle"
+            v-model="actualUsuario.pregunta"
+            :rules="passwRules"
+            required
+          >&lt;/v-text-field>
+          &lt;v-btn
+            :disabled="!valid"
+            color="success"
+            class="mr-4"
+            @click="updateUsuario(), (editar = !editar)"
+          >
+            Aceptar&lt;/v-btn
+          >
+          &lt;v-btn color="error" class="mr-4" @click="editar = !editar">
+            Cerrar
+          &lt;/v-btn>
+        &lt;/v-form>
+      &lt;/v-card>
+    &lt;/v-dialog>
+  &lt;/v-container>
+&lt;/template>
+&lt;script>
+import axios from "axios";
+export default {
+  name: "perfil",
+  /**
+   * contiene todas las variables usadas en la vista
+   */
+  data() {
+    return {
+      valid: true,
+      editar: false,
+      errorMsg: "",
+      successMsg: "",
+      nameRules: [(v) => !!v || "El nombre del usuario no se a rellenado"],
+      emailRules: [
+        (v) => !!v || "No se a rellenado el correo",
+        (v) => /.+@.+\..+/.test(v) || "El correo debe ser valido",
+      ],
+      passwRules: [(v) => !!v || "La Contraseña no se a rellenado"],
+      listaUsuarios: [],
+      actualUsuario: {
+        idUsuario: localStorage.getItem("id"),
+        nombre: "",
+        correo: "",
+        password: "",
+        pregunta: "",
+      },
+      token: localStorage.getItem("id"),
+      nombre: localStorage.getItem("userName"),
+    };
+  },
+  /**
+   * ciclo de vida de vue al crear la pagina ejecuta la funcion
+   */
+  created: function() {
+    this.getUsuarios();
+  },
+  /**
+   * contiene todas las funciones utilizadas en la vista
+   */
+  methods: {
+    /**
+     * funcion que recoge los datos de los ususarios mediante una peticion axios
+     */
+    getUsuarios() {
+      var data = new FormData();
+      const _this = this;
+      data.append("id", _this.token);
+      axios
+        .post(
+          "http://localhost/proyecto/mycouncil/src/bbdd/crudU.php?accion=leer2",
+          data
+        )
+        .then(function(response) {
+          _this.listaUsuarios = response.data.usuario;
+        });
+    },
+    /**
+     *funcion que actualiza los datos del usuario mediante una peticion axios a la que se le pasan los datos a enviar a la pagina php
+     */
+    updateUsuario() {
+      const _this = this;
+      var formData = _this.toFormData(_this.actualUsuario);
+      axios
+        .post(
+          "http://localhost/proyecto/mycouncil/src/bbdd/crudU.php?accion=editar2",
+          formData
+        )
+        .then(function(response) {
+          _this.actualUsuario = {};
+          if (response.data.error) {
+            _this.errorMsg = response.data.message;
+            location.reload();
+          } else {
+            _this.successMsg = response.data.message;
+            _this.getUsuarios();
+          }
+        });
+    },
+  /**
+   * funcion de seleccion de usuario, se utiliza para recopilar los datos que se van a enviar a las funciones de borrado o modificacion
+   */
+    selectUsuario(usuario) {
+      this.actualUsuario.nombre = usuario.nombre;
+      this.actualUsuario.correo = usuario.correo;
+      this.actualUsuario.password = usuario.password;
+      this.actualUsuario.pregunta = usuario.pregunta;
+    },
+
+    toFormData(obj) {
+      var fd = new FormData();
+      for (var i in obj) {
+        fd.append(i, obj[i]);
+      }
+      return fd;
+    },
+  },
+};
+&lt;/script>
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#routes">routes</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Dec 10 2021 16:51:23 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

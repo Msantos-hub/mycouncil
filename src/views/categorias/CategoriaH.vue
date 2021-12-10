@@ -1,12 +1,12 @@
 <template>
   <v-container grid-list-md>
     <v-layout row wrap class="mb-10">
-      <v-flex xs12 md6>
-        <v-card>
-          <v-card-title>titulo</v-card-title>
-          <v-img src="../../assets/img/catalogo/heroes.jpg" height="200"></v-img>
+      <v-flex xs6>
+        <v-card v-for="(comic, index) of comics" :key="index">
+          <v-card-title>{{comic.nombre}}</v-card-title>
+          <v-img src="../../assets/img/portadas/dlh.jpg" height="200"></v-img>
           <v-card-actions>
-            <v-btn block color="success" to="">Acceder</v-btn>
+            <v-btn block color="success" to="/comic">Acceder</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -16,12 +16,48 @@
 <script>
 import axios from "axios";
 export default {
-  data() {},
+   /**
+   * contiene todas las variables usadas en la vista
+   */
+  data() {    
+    return{
+      idComic:'',
+      userData:{
+        idCategoria:'1'
+      },
+      comics:[],
+    };   
+  },
   created() {
     this.getComic();
   },
   methods: {
-    getComic() {},
+    /**
+   * ciclo de vida de vue cuando se crea la pagina se ejecuta la funcion 
+   */
+  created() {
+    this.getComic();
+  },
+  /**
+   * contiene todas las funciones usadas en la vista
+   */
+  methods: {
+    /**
+   * Recoge y lee los datos traidos por la query
+   */
+    async getComic() {
+      const _this = this;
+      var data = new FormData();
+      data.append("idCategoria", _this.userData.idCategoria)
+      await axios
+      .post("http://localhost/proyecto/mycouncil/src/bbdd/categorias.php?accion=leer",
+      data
+      )
+        .then(function(response) {
+          _this.comics = response.data.comics;
+        });
+    },
+  },
   },
 };
 </script>
