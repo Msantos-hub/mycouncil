@@ -1,4 +1,9 @@
 <template>
+  <!--
+  Manuel Jesús Santos García
+  TFG CFGS 2º DAW 2021
+  Vista donde se muetran las distintas categorias de comics existentes
+ -->
   <v-container grid-list-md>
     <h2>Marvel</h2>
     <v-divider class="mb-5"></v-divider>

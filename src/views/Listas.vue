@@ -1,4 +1,9 @@
 <template>
+<!--
+  Manuel Jesús Santos García
+  TFG CFGS 2º DAW 2021
+  Vista en las que muestran las listas del usuario y su creacion
+ -->
   <v-container grid-list-md>
     <v-layout row wrap>
       <v-flex xs12 md6>

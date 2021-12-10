@@ -1,5 +1,10 @@
 <?php
 
+  /* Manuel Jesús Santos García
+  TFG CFGS 2º DAW 2021
+  controlador php donde se ejecuta el login y el registro
+ */
+
     header('Access-Control-Allow-Origin: *');
     header("Access-Control-Allow-Credentials", "true");
     header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");

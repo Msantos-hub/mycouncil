@@ -1,4 +1,9 @@
 <template>
+<!--
+  Manuel Jesús Santos García
+  TFG CFGS 2º DAW 2021
+  Pagina Base en las que todas las vistas se muestran
+ -->
   <v-app>
     <v-main class="mt-10">
       <v-layout row wrap class="mb-5">

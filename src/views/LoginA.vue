@@ -1,4 +1,9 @@
 <template>
+<!--
+  Manuel Jesús Santos García
+  TFG CFGS 2º DAW 2021
+  Vista donde se hace el proceso de inicio de sesion del administrador solo accesible desde url /loginA
+ -->
   <div
     class="wrapper fadeInDown"
     :style="{

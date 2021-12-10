@@ -1,4 +1,9 @@
 <template>
+  <!--
+  Manuel Jesús Santos García
+  TFG CFGS 2º DAW 2021
+  Vista donde se muestran los datos de los comics
+ -->
   <v-container grid-list-md>
     <v-layout row wrap>
       <v-flex xs3 class="blue"

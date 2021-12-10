@@ -1,4 +1,9 @@
 <template>
+  <!--
+  Manuel Jesús Santos García
+  TFG CFGS 2º DAW 2021
+  Vista donde los usurios registrados crean las sugerencias
+ -->
   <v-container>
     <v-row>
       <v-col cols="12" md="12" class="mt-10">
@@ -28,7 +33,12 @@
             required
             class="mb-10"
           ></v-text-field>
-          <v-btn color="success" class="mr-4" @click="addSugerencia(), clear()">
+          <v-btn
+            color="success"
+            class="mr-4"
+            v-if="token != null"
+            @click="addSugerencia(), clear()"
+          >
             Enviar sugerencia
           </v-btn>
           <v-btn color="warning" @click="clear()">
@@ -64,13 +74,20 @@ export default {
         description: "",
         idUsuario: localStorage.getItem("id"),
       },
+      token: null,
     };
   },
-
+  updated() {
+    this.tokenexist();
+  },
   /**
    * contiene todas las funciones usadas en la vista
    */
   methods: {
+    tokenexist() {
+      var _this = this;
+      _this.token = localStorage.getItem("id");
+    },
     /**
      * funcion que añade una nueva sugerencia, mediante una peticion axios manda a la pagina php los datos para realizar la consulta
      */

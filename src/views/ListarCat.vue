@@ -1,4 +1,9 @@
 <template>
+  <!--
+  Manuel Jesús Santos García
+  TFG CFGS 2º DAW 2021
+  Vista del panel de control donde se controlan las categorias
+ -->
   <v-container class="mt-5">
     <v-layout row wrap>
       <v-flex xs12>

@@ -1,5 +1,10 @@
 <?php
 
+  /* Manuel Jesús Santos García
+  TFG CFGS 2º DAW 2021
+  controlador php donde se ejecuta el crud de usuarios
+ */
+
 /**
  * Concede acceso desde todos los origenes
  */

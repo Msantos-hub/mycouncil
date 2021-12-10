@@ -1,5 +1,10 @@
 <?php
 
+  /* Manuel Jesús Santos García
+  TFG CFGS 2º DAW 2021
+  controlador php donde se ejecuta la recopilacion de datos de las categorias
+ */
+
 /**
  * Concede acceso desde todos los origenes
  */

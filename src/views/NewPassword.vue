@@ -1,4 +1,9 @@
 <template>
+<!--
+  Manuel Jesús Santos García
+  TFG CFGS 2º DAW 2021
+  Vista en la que se realiza el segundo paso de la recuperacion de contraseña
+ -->
     <div class="wrapper fadeInDown" 
         :style="{'background-size':'cover','background-image': 'url(' + require('@/assets/img/logos/fondoLogin.png') + ')'}"
     >

@@ -1,4 +1,9 @@
 <template>
+<!--
+  Manuel Jesús Santos García
+  TFG CFGS 2º DAW 2021
+  Vista en se registran los usuarios
+ -->
   <div
     class="wrapper fadeInDown"
     :style="{

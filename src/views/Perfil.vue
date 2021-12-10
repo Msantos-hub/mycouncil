@@ -1,4 +1,9 @@
 <template>
+<!--
+  Manuel Jesús Santos García
+  TFG CFGS 2º DAW 2021
+  Vista de la pagina de perfil de los usuarios
+ -->
   <v-container>
     <v-layout row wrap class="mt-10">
       <v-flex xs12 md3>
